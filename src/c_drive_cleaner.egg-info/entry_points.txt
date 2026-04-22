@@ -1,0 +1,2 @@
+[console_scripts]
+c-drive-cleaner = c_drive_cleaner.__main__:main

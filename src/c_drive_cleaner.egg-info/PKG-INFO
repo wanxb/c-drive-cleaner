@@ -1,0 +1,176 @@
+Metadata-Version: 2.4
+Name: c-drive-cleaner
+Version: 0.1.0
+Summary: Interactive Windows cache cleaner with automatic discovery and risk labels.
+Author: Open Source Starter
+License: MIT
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Requires-Dist: textual>=8.2.0
+
+# C Drive Cleaner
+
+一个面向 Windows 的交互式缓存清理工具，运行在终端里，核心思路是自动发现系统里的缓存特征目录，而不是维护一份软件名单。
+
+它的目标是把“先看清、再决定删什么”做成一个小产品：
+
+- 自动扫描缓存特征目录并估算可回收空间
+- 显示每个目录的文件数、超大文件数量、最大文件列表
+- 默认按体积排序，方便先处理最大的目录
+- 支持低风险目标的一键清理
+- 支持只清理当前选中目录
+- 每次重新扫描时自动重新发现目标
+- 支持在缓存文件夹和缓存文件视图之间切换
+- 删除前确认
+- 清理时显示进度条
+- 支持忽略规则配置
+- 删除失败时记录原因分类
+
+## 自动发现规则
+
+默认会在 Windows 常见用户缓存根路径下递归发现目录，例如：
+
+- `%LOCALAPPDATA%`
+- `%APPDATA%`
+- `%TEMP%`
+- `C:\Windows\Temp`
+
+只要目录名符合常见缓存特征，就会被自动纳入候选清理目标，例如：
+
+- `cache`
+- `caches`
+- `code cache`
+- `gpucache`
+- `shadercache`
+- `temp`
+- `tmp`
+- `crashdumps`
+- 以及包含 `-cache`、`_cache`、`.cache` 等模式的目录名
+
+这样像浏览器缓存、Electron 应用缓存、包管理器下载缓存这类目录，只要路径形态像缓存，就能自动被发现，而不需要单独为某个软件写规则。
+
+## 风险分级
+
+扫描结果会自动分成三类：
+
+- `LOW`：典型缓存目录，适合批量清理
+- `MEDIUM`：临时目录或按模式命中的缓存目录，建议确认后再清理
+- `HIGH`：更像安装包缓存这类边界目录，只建议手动审查
+
+其中 “Clean Low Risk” 只会处理 `LOW` 风险目标。
+
+## 配置文件
+
+首次运行会自动生成配置文件：
+
+```text
+%APPDATA%\c-drive-cleaner\config.json
+```
+
+当前支持这些配置项：
+
+```json
+{
+  "confirm_before_clean": true,
+  "whitelist_path_patterns": [],
+  "ignored_path_patterns": [],
+  "ignored_name_patterns": [],
+  "ignored_risk_levels": [],
+  "preserve_path_patterns": [],
+  "preserve_name_patterns": []
+}
+```
+
+常见用法：
+
+- `whitelist_path_patterns` 可填写多条，只扫描这些路径模式命中的目标
+- 用 `ignored_name_patterns` 忽略目录名，例如 `["package cache"]`
+- 用 `ignored_path_patterns` 忽略路径通配，例如 `["*\\JetBrains\\*"]`
+- 用 `ignored_risk_levels` 忽略某类风险，例如 `["high"]`
+- `preserve_path_patterns` 可填写多条，命中的路径会在清理时保留
+- `preserve_name_patterns` 可填写多条，命中的目录或文件名会在清理时保留
+
+示例：
+
+```json
+{
+  "whitelist_path_patterns": [
+    "*\\AppData\\Local\\Temp*",
+    "*\\npm-cache*"
+  ],
+  "preserve_path_patterns": [
+    "*\\Temp\\keep-me*",
+    "*\\Temp\\do-not-delete*"
+  ],
+  "preserve_name_patterns": [
+    "important-cache",
+    "*.lock"
+  ]
+}
+```
+
+## 安装
+
+```bash
+cd c-drive-cleaner
+pip install -e .
+```
+
+## 运行
+
+启动 TUI：
+
+```bash
+c-drive-cleaner
+```
+
+或者：
+
+```bash
+python -m c_drive_cleaner
+```
+
+只做一次扫描并输出文本结果：
+
+```bash
+python -m c_drive_cleaner --scan-once
+```
+
+初始化默认配置：
+
+```bash
+python -m c_drive_cleaner --init-config
+```
+
+## TUI 操作
+
+- `r` 重新扫描
+- `space` 标记 / 取消标记当前目录
+- `c` 清理当前选中目录
+- `a` 一键清理全部低风险目录
+- `t` 在缓存文件夹 / 缓存文件视图之间切换
+- `q` 退出
+
+界面按钮也支持同样操作。清理时右侧会显示当前进度、总数和正在处理的项目。
+
+清理失败时，历史和界面会归类显示原因，例如：
+
+- `permission_denied`
+- `in_use`
+- `not_found`
+- `path_too_long`
+- `read_only`
+- `unknown`
+
+## 产品方向
+
+下一步很适合继续做这些能力：
+
+- 更细的自动识别与风险分级
+- 目录白名单与保留规则
+- 导出 CSV / HTML 报告
+- 后台扫描与性能优化
+
+## License
+
+MIT

@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "c-drive-cleaner"
+version = "0.1.0"
+description = "Interactive Windows cache cleaner with automatic discovery, risk labels, export, and history."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [
+  { name = "Open Source Starter" }
+]
+dependencies = [
+  "textual>=8.2.0"
+]
+
+[project.scripts]
+c-drive-cleaner = "c_drive_cleaner.__main__:main"
+
+[tool.setuptools.package-dir]
+"" = "src"
+
+[tool.setuptools.packages.find]
+where = ["src"]

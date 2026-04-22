@@ -1,0 +1,15 @@
+README.md
+pyproject.toml
+src/c_drive_cleaner/__init__.py
+src/c_drive_cleaner/__main__.py
+src/c_drive_cleaner/app.py
+src/c_drive_cleaner/catalog.py
+src/c_drive_cleaner/config.py
+src/c_drive_cleaner/core.py
+src/c_drive_cleaner/persistence.py
+src/c_drive_cleaner.egg-info/PKG-INFO
+src/c_drive_cleaner.egg-info/SOURCES.txt
+src/c_drive_cleaner.egg-info/dependency_links.txt
+src/c_drive_cleaner.egg-info/entry_points.txt
+src/c_drive_cleaner.egg-info/requires.txt
+src/c_drive_cleaner.egg-info/top_level.txt
