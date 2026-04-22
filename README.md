@@ -1,10 +1,27 @@
 # C Drive Cleaner
 
-一个面向 Windows 的交互式缓存清理工具，运行在终端里。它的核心思路不是维护一份“软件名单”，而是自动发现系统中具有缓存特征的目录，帮助我们先看清、再决定清理什么。
+一个面向 Windows 的交互式缓存清理工具，运行在终端界面中。它不会依赖一份固定的软件名单，而是自动发现系统中具有缓存特征的目录，帮助我们先看清空间占用，再决定清理什么。
 
 ## 界面预览
 
-![C Drive Cleaner 界面截图](src/image/Snip.png)
+![C Drive Cleaner 界面截图](src/imgage/Snip.png)
+
+## 小白用户怎么用
+
+如果你只是想直接运行软件，不想安装 Python，推荐使用已经打包好的 Windows 版本：
+
+1. 打开 [Releases](https://github.com/wanxb/c-drive-cleaner/releases)
+2. 下载最新版本里的 `c-drive-cleaner-windows.zip`
+3. 解压压缩包
+4. 进入解压后的文件夹
+5. 双击运行 `c-drive-cleaner-dir.exe`
+6. 进入界面后先点“扫描”，再优先使用“清理低风险”
+
+说明：
+
+- 不需要安装 Python
+- 第一次运行如果被 Windows 提示安全确认，选择“仍要运行”即可
+- 建议先扫描和查看，再清理
 
 ## 功能特性
 
@@ -88,20 +105,35 @@
 
 ```json
 {
-  "whitelist_path_patterns": ["*\\AppData\\Local\\Temp*", "*\\npm-cache*"],
-  "preserve_path_patterns": ["*\\Temp\\keep-me*", "*\\Temp\\do-not-delete*"],
-  "preserve_name_patterns": ["important-cache", "*.lock"]
+  "whitelist_path_patterns": [
+    "*\\AppData\\Local\\Temp*",
+    "*\\npm-cache*"
+  ],
+  "preserve_path_patterns": [
+    "*\\Temp\\keep-me*",
+    "*\\Temp\\do-not-delete*"
+  ],
+  "preserve_name_patterns": [
+    "important-cache",
+    "*.lock"
+  ]
 }
 ```
 
-## 安装
+## 开发者安装
+
+如果你希望从源码运行，而不是下载发布版：
 
 ```bash
 cd c-drive-cleaner
 pip install -e .
 ```
 
-## 运行
+要求：
+
+- Python 3.11 或更高版本
+
+## 开发者运行
 
 启动 TUI：
 
