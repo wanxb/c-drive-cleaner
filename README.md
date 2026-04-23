@@ -4,7 +4,7 @@
 
 ## 界面预览
 
-![C Drive Cleaner 界面截图](src/imgage/Snip.png)
+![C Drive Cleaner 界面截图](src/image/Snip.png)
 
 ## 小白用户怎么用
 
@@ -105,18 +105,9 @@
 
 ```json
 {
-  "whitelist_path_patterns": [
-    "*\\AppData\\Local\\Temp*",
-    "*\\npm-cache*"
-  ],
-  "preserve_path_patterns": [
-    "*\\Temp\\keep-me*",
-    "*\\Temp\\do-not-delete*"
-  ],
-  "preserve_name_patterns": [
-    "important-cache",
-    "*.lock"
-  ]
+  "whitelist_path_patterns": ["*\\AppData\\Local\\Temp*", "*\\npm-cache*"],
+  "preserve_path_patterns": ["*\\Temp\\keep-me*", "*\\Temp\\do-not-delete*"],
+  "preserve_name_patterns": ["important-cache", "*.lock"]
 }
 ```
 
